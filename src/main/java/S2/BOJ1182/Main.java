@@ -1,8 +1,6 @@
 package S2.BOJ1182;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,8 +8,10 @@ import java.util.StringTokenizer;
 
 // 부분 수열의 합
 public class Main {
+    static int sum = 0;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
         st = new StringTokenizer(br.readLine());
@@ -20,32 +20,25 @@ public class Main {
 
         st = new StringTokenizer(br.readLine());
         int[] arr = new int[N];
-        for(int i=0; i<N; i++){
+        for (int i = 0; i < N; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
-
-        Arrays.sort(arr);
-
-        int count = 0;
-        List<Integer> list = new ArrayList<Integer>();
-        int index = 0;
-        while(index < N){
-            if(getSum(list) < S){
-                list.add(arr[index]);
-                index++;
-            } else if(getSum(list) > S){
-                list.remove(0);
-            } else {
-                count++;
-            }
-        }
-        System.out.println(count);
+        int sum = 0;
+        System.out.println("before : " + sum);
+        boolean[] visited = new boolean[N];
+        dfs(arr, visited, 0, sum, S);
+        System.out.println("after : " + sum);
     }
 
-    public static int getSum(List<Integer> list){
-        int sum = 0;
-        for(int i=0; i<list.size(); i++){
-            sum += list.get(i);
+    public static int dfs(int[] arr, boolean[] visited, int num, int sum, int S){
+        visited[num] = true;
+        sum += arr[num];
+        if(sum != S){
+            for(int i=0; i<arr.length; i++){
+                if(!visited[i]){
+                    sum = dfs(arr, visited, i, sum, S);
+                }
+            }
         }
         return sum;
     }
