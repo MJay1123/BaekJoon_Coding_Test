@@ -1,4 +1,4 @@
-package BOJ14502;
+package notyet.BOJ14502;
 
 import java.io.BufferedReader;
 import java.io.IOException;

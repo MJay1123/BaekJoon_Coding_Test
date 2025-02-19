@@ -1,4 +1,4 @@
-package G4.BOJ16234;
+package notyet.BOJ16234;
 
 import java.io.*;
 import java.util.Arrays;
