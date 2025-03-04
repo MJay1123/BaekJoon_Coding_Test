@@ -3,7 +3,7 @@ package notyet.BOJ2206;
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Main2 {
 
     static int N;               // 지도의 세로 길이
     static int M;               // 지도의 가로 길이
@@ -28,7 +28,6 @@ public class Main {
                 map[i][j] = Integer.parseInt(arr[j]);
                 if(map[i][j] == 1){
                     wall.add(new Location(i,j));
-                    map[i][j] = -1;
                 }
             }
         }
@@ -38,47 +37,69 @@ public class Main {
         // 최단경로는 맵에서 가장 적은 개수의 칸을 지나는 경로를 말하는데, 이때 시작하는 칸과 끝나는 칸도 포함해서 센다.
         // 불가능할 때는 -1을 출력한다
 
-        minDistance = Integer.MAX_VALUE;
-
-        for(int w=0; w<wall.size(); w++){
-            Location loc = wall.get(w);
-            int x = loc.x;
-            int y = loc.y;
-            map[x][y] = 0;                          // 벽 1개 부수기
-            visited = new boolean[N][M];
-            bfs(0,0);
-
-            if(map[N-1][M-1] != 0){                                         // 0이라면 BFS가 이루어지지 않음
-                minDistance = Math.min(minDistance, map[N-1][M-1]);         // BFS가 이루어진 후에 거리 반환
-            }
-            map[x][y] = -1;                          // 벽 복원
+        minDistance = N*M;
+        combination(new Location(0,0), 0);
+        if(minDistance == N*M){
+            minDistance = -1;
         }
-        if(minDistance == Integer.MAX_VALUE){
-            bw.write(-1 + "\n");
-        } else {
-            bw.write(minDistance + "\n");
-        }
+        bw.write(minDistance + "\n");
         bw.flush();
     }
 
-    public static void bfs(int x, int y){               // (x,y)에서 출발하는 BFS
+    public static void bfs(int x, int y, int[][] newMap){
         Queue<Location> queue = new LinkedList<>();
         queue.add(new Location(x, y));
         visited[x][y] = true;
-        map[x][y] = 1;
+        newMap[x][y] = 1;
 
-        while(!queue.isEmpty()){               // N,M 좌표에 도달하면 즉시 중단
+        while(!queue.isEmpty()){
             Location loc = queue.poll();
             for(int i=0; i<4; i++){
                 int nx = loc.x + move[i][0];
                 int ny = loc.y + move[i][1];
-                if(checkRange(nx, ny) && !visited[nx][ny] && map[nx][ny] != -1){
+                if(checkRange(nx, ny) && !visited[nx][ny] && map[nx][ny] == 0){
                     queue.add(new Location(nx, ny));
                     visited[nx][ny] = true;
-                    map[nx][ny] = map[loc.x][loc.y] + 1;
+                    newMap[nx][ny] = newMap[loc.x][loc.y] + 1;
                 }
             }
         }
+    }
+
+    public static void combination(Location loc, int wall){
+        if(wall == 1){
+            int[][] newMap = new int[N][M];
+            visited = new boolean[N][M];
+            bfs(0,0, newMap);
+            if(newMap[N-1][M-1] != 0){
+                minDistance = Math.min(minDistance, newMap[N-1][M-1]);
+            }
+            return;
+        }
+        int x = loc.x;
+        int y = loc.y;
+        if(!checkRange(x,y)){
+            return;
+        }
+        if(map[x][y] == 0){
+            combination(getNextLocation(loc), wall);
+        } else {
+            map[x][y] = 0;
+            combination(getNextLocation(loc), wall+1);
+
+            map[x][y] = 1;
+            combination(getNextLocation(loc), wall);
+        }
+    }
+
+    public static Location getNextLocation(Location loc){
+        int nx = loc.x+1;
+        int ny = loc.y;
+        if(nx == N){
+            nx = 0;
+            ny++;
+        }
+        return new Location(nx, ny);
     }
 
     static class Location{

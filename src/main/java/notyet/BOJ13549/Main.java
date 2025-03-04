@@ -63,6 +63,8 @@ public class Main {
                     time[newLocation] = time[currentLocation]+1;
                 }
             }
+            System.out.println(queue);
+            System.out.println(currentLocation + " " + time[currentLocation]);
         }
     }
 
