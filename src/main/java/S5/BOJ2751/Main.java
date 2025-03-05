@@ -1,4 +1,4 @@
-package BOJ2751;
+package S5.BOJ2751;
 
 import java.io.BufferedReader;
 import java.io.IOException;

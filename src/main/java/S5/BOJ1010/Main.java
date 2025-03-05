@@ -1,4 +1,4 @@
-package BOJ1010;
+package S5.BOJ1010;
 // 다리 놓기
 import java.io.BufferedReader;
 import java.io.IOException;

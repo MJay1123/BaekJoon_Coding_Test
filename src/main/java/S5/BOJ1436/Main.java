@@ -1,4 +1,4 @@
-package BOJ1436;
+package S5.BOJ1436;
 
 import java.io.BufferedReader;
 import java.io.IOException;
