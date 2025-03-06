@@ -1,4 +1,4 @@
-package notyet.BOJ13549;
+package G5.BOJ13549;
 
 import java.io.*;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ public class Main {
     static int K;                           // 동생
     static int[] time;                      // 시간 배열
     static boolean[] visited;               // 방문 배열
-    static int[] move = {1, -1};            // 한 칸씩 이동
+    static int[] move = {-1, 1};            // 한 칸씩 이동
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -26,14 +26,12 @@ public class Main {
         if(K <= N){
             bw.write(N-K + "\n");
         } else {
-            time = new int[K+2];                    // K+1까지의 시간을 담아야 됨
-            visited = new boolean[K+2];
+            time = new int[K+10];                    // K+1까지의 시간을 담아야 됨
+            visited = new boolean[K+10];
             bfs(N);
             bw.write(time[K] + "\n");
         }
         bw.flush();
-        System.out.println(Arrays.toString(time));
-        System.out.println(Arrays.toString(visited));
     }
 
     public static void bfs(int start){
@@ -63,8 +61,6 @@ public class Main {
                     time[newLocation] = time[currentLocation]+1;
                 }
             }
-            System.out.println(queue);
-            System.out.println(currentLocation + " " + time[currentLocation]);
         }
     }
 
