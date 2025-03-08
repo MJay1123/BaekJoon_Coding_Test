@@ -1,4 +1,4 @@
-package notyet.BOJ1072;
+package Silver.S3.BOJ1072;
 
 import java.io.*;
 import java.util.StringTokenizer;
