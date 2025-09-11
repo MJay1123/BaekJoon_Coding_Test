@@ -21,7 +21,7 @@ public class Main {
             list.add(Integer.parseInt(st.nextToken()));
         }
         Collections.sort(list);
-        bw.write(list.get(list.size()-5) + "\n");
+        bw.write(list.get(list.size()-k) + "\n");
         bw.flush();
     }
 }
