@@ -5,36 +5,49 @@ import java.util.*;
 
 // 단어 만들기
 public class Main {
-    static List<String> dictionary = new ArrayList<>();
-    static Map<Character, Integer> map = new HashMap<>();
+    static List<String> words = new ArrayList<>();
+    static List<int[]> dictionary = new ArrayList<>();
+    static List<int[]> puzzles = new ArrayList<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        for(char c = 'A'; c <= 'Z'; c++){
-            map.put(c, 0);
-        }
         while(true){
-            if(br.readLine().equals("-")){
-                break;
-            }
             String word = br.readLine();
-            if(word.length() <= 9){
-                dictionary.add(word);
-            }
-        }
-        System.out.println(map);
-
-        while(true){
-            if(br.readLine().equals("#")){
+            if(word.equals("-")){
                 break;
             }
-            String[] alphabet = br.readLine().split("");
-            for(int i=0; i<alphabet.length; i++){
-                System.out.println("abc".toCharArray());
+            int[] array = new int[26];
+            words.add(word);
+            for(int i=0; i<word.length(); i++){
+                int num = word.charAt(i) - 'A';
+                array[num]++;
             }
-
+            dictionary.add(array);
         }
+        while(true){
+            String puzzle = br.readLine();
+            if(puzzle.equals("#")){
+                break;
+            }
+            int[] array = new int[26];
+            for(int i=0; i<puzzle.length(); i++){
+                int num = puzzle.charAt(i) - 'A';
+                array[num]++;
+            }
+            puzzles.add(array);
+        }
+        System.out.println("dictionary = " + dictionary);
+        for(int i=0; i<dictionary.size(); i++){
+            System.out.println(Arrays.toString(dictionary.get(i)));
+        }
+        System.out.println("puzzles = " + puzzles);
+        for(int i=0; i<puzzles.size(); i++){
+            System.out.println(Arrays.toString(puzzles.get(i)));
+        }
+        for(String word : words){
+            for(int i=0; i<word.length(); i++){
 
-
+            }
+        }
     }
 }
