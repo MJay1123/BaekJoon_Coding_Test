@@ -44,6 +44,15 @@ public class Main {
         for(int i=0; i<puzzles.size(); i++){
             System.out.println(Arrays.toString(puzzles.get(i)));
         }
+        for(int i=0; i<puzzles.size(); i++){
+            int[] puzzle = puzzles.get(i);
+            for(int j=0; j<dictionary.size(); j++){
+                int[] word = dictionary.get(j);
+                for(int k=0; k<26; k++){
+
+                }
+            }
+        }
         for(String word : words){
             for(int i=0; i<word.length(); i++){
 
