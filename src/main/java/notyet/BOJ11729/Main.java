@@ -1,4 +1,4 @@
-package Gold.G5.BOJ11729;
+package notyet.BOJ11729;
 
 import java.io.*;
 import java.util.Stack;
