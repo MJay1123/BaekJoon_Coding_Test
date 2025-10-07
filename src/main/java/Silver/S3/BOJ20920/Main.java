@@ -15,15 +15,12 @@ public class Main {
 
         @Override
         public int compareTo(Word o) {
-
-            if(this.count == o.count){
-                if(this.word.length() == o.word.length()){
-                    return this.word.compareTo(o.word);
-                } else {
-                    return o.word.length() - this.word.length();
-                }
-            } else {
+            if(this.count != o.count){
                 return o.count - this.count;
+            } else if(this.word.length() != o.word.length()){
+                return o.word.length() - this.word.length();
+            } else {
+                return this.word.compareTo(o.word);
             }
         }
     }
@@ -37,11 +34,7 @@ public class Main {
         for(int i=0; i<N; i++){
             String word = br.readLine();
             if(word.length() >= M){
-                if(hm.containsKey(word)){
-                    hm.replace(word, hm.get(word) + 1);
-                } else {
-                    hm.put(word, 1);
-                }
+                hm.put(word, hm.getOrDefault(word, 0)+1);
             }
         }
         PriorityQueue<Word> pq = new PriorityQueue<>();
