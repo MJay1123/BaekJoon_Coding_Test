@@ -1,9 +1,7 @@
 package notyet.BOJ9663;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Main {
     static int answer = 0;
@@ -19,47 +17,61 @@ public class Main {
 
     public static void placeQueen(boolean[][] chessBoard, int r, int c, int depth, int count){
         if(depth == count){
-            answer++;
+            if(checkBoard(chessBoard)){
+                answer++;
+            }
             return;
         }
-        if(r >= chessBoard.length || c >= chessBoard[0].length){
+        if(r >= chessBoard.length){
+            r -= chessBoard.length;
+            c++;
+        }
+        if(c >= chessBoard[0].length){
             return;
         }
         if(!chessBoard[r][c]){
-            changeBoard(chessBoard, r, c, true);
-            if(r+1 < chessBoard.length){
-                placeQueen(chessBoard, r+1, c, depth+1, count);
-            } else {
-                placeQueen(chessBoard, 0, c+1, depth+1, count);
-            }
-            changeBoard(chessBoard, r, c, false);
-            if(r+1 < chessBoard.length){
-                placeQueen(chessBoard, r+1, c, depth, count);
-            } else {
-                placeQueen(chessBoard, 0, c+1, depth, count);
-            }
+            chessBoard[r][c] = true;
+            placeQueen(chessBoard, r+1, c, depth+1, count);
+            chessBoard[r][c] = false;
+            placeQueen(chessBoard, r+1, c, depth, count);
         }
     }
 
-    public static void changeBoard(boolean[][] chessBoard, int r, int c, boolean result){
+    public static boolean checkBoard(boolean[][] chessBoard){
+        for(int r=0; r<chessBoard.length; r++){
+            for(int c=0; c<chessBoard[0].length; c++){
+                if(chessBoard[r][c]){
+                    if(!checkQueen(chessBoard, r, c)){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean checkQueen(boolean[][] chessBoard, int r, int c){
+        boolean result = true;
         for(int i=0; i<chessBoard.length; i++){
-            chessBoard[r][i] = result;
-            chessBoard[i][c] = result;
+            if(chessBoard[i][c] || chessBoard[r][i]){
+                return false;
+            }
         }
         for(int i=1; i<chessBoard.length; i++){
-            if(checkRange(chessBoard, r+i, c+i)){
-                chessBoard[r+i][c+i] = result;
+            if(checkRange(chessBoard, r+i, c+i) && chessBoard[r+i][c+i]){
+                return false;
             }
-            if(checkRange(chessBoard, r+i, c-i)){
-                chessBoard[r+i][c-i] = result;
+            if(checkRange(chessBoard, r+i, c-i) && chessBoard[r+i][c-i]){
+                return false;
             }
-            if(checkRange(chessBoard, r-i, c+i)){
-                chessBoard[r-i][c+i] = result;
+            if(checkRange(chessBoard, r-i, c+i) && chessBoard[r-i][c+i]){
+                return false;
             }
-            if(checkRange(chessBoard, r-i, c-i)){
-                chessBoard[r-i][c-i] = result;
+            if(checkRange(chessBoard, r-i, c-i) && chessBoard[r-i][c-i]){
+                return false;
             }
         }
+        return true;
     }
 
     public static boolean checkRange(boolean[][] chessBoard, int r, int c){
