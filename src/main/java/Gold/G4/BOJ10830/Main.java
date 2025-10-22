@@ -12,28 +12,16 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         long B = Long.parseLong(st.nextToken());
         String B2 = Long.toString(B, 2);
-        int[][] arr = new int[N][N];
         int[][][] result = new int[B2.length()][N][N];
         for(int i=0; i<N; i++){
             st = new StringTokenizer(br.readLine());
             for(int j=0; j<N; j++){
                 int num = Integer.parseInt(st.nextToken());
-                arr[i][j] = num;
                 result[0][i][j] = num;
             }
         }
         for(int b=1; b<B2.length(); b++){
-            int[][] temp = new int[N][N];
-            for(int r=0; r<N; r++){
-                for(int c=0; c<N; c++){
-                    int sum = 0;
-                    for(int i=0; i<N; i++){
-                        sum += result[b-1][r][i] * result[b-1][i][c];
-                    }
-                    temp[r][c] = sum % 1000;
-                }
-            }
-            result[b] = temp;
+            result[b] = multiply(result[b-1], result[b-1]);
         }
         answer = new int[N][N];
         for(int i=0; i<N; i++){
