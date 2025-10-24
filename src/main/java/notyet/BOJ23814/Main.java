@@ -10,7 +10,6 @@ public class Main {
     static long N;              // 짜장면
     static long M;              // 짬뽕
     static long K;              // 남은 사람의 수
-    static long answer;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -21,39 +20,42 @@ public class Main {
         K = Long.parseLong(st.nextToken());
         long remainN = N % D;
         long remainM = M % D;
-        long needN = remainN == 0 ? 0 : D - remainN;
-        long needM = remainM == 0 ? 0 : D - remainM;
-        answer = K - (K%D);
-        K %= D;
-        if(needN <= needM){
-            if(needN <= K && needN != 0){
-                remainN = 0;
-                N += needN;
-                K -= needN;
-                needN = 0;
-            }
-            if(needM <= K){
-                remainM = 0;
-                M += needM;
-                K -= needM;
-                needM = 0;
-            }
+        long needN = D - remainN;
+        long needM = D - remainM;
+        long[][] answer = new long[2][2];
+        answer[0][0] = K;
+        answer[1][0] = K;
+        long remain1 = K % D;
+        long remain2 = K % D;
+        if(needN <= remain1){
+            answer[0][0] -= needN;
+            answer[0][1]++;
+            remain1 -= needN;
+        }
+        if(needM <= remain1){
+            answer[0][0] -= needM;
+            answer[0][1]++;
+            remain1 -= needM;
+        }
+        if(needM <= remain2){
+            answer[1][0] -= needM;
+            answer[1][1]++;
+            remain2 -= needM;
+        }
+        if(needN <= remain2){
+            answer[1][0] -= needN;
+            answer[1][1]++;
+            remain2 -= needN;
+        }
+        if(answer[0][1] == answer[1][1]){
+            bw.write(Math.max(answer[0][0], answer[1][0]) + "\n");
         } else {
-            if(needM <= K){
-                remainM = 0;
-                M += needM;
-                K -= needM;
-                needM = 0;
-            }
-            if(needN <= K){
-                remainN = 0;
-                N += needN;
-                K -= needN;
-                needN = 0;
+            if(answer[0][1] > answer[1][1]){
+                bw.write(answer[0][0] + "\n");
+            } else {
+                bw.write(answer[1][0] + "\n");
             }
         }
-        answer += K;
-        bw.write(answer + "\n");
         bw.flush();
     }
 }
