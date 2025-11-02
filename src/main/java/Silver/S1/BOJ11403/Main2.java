@@ -3,7 +3,7 @@ package Silver.S1.BOJ11403;
 import java.io.*;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main2 {
     static int[] result;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,24 +17,27 @@ public class Main {
             }
         }
         StringBuilder sb = new StringBuilder();
+        for(int k=0; k<N; k++){
+            for(int i=0; i<N; i++){
+                for(int j=0; j<N; j++){
+                    if (connection[i][j] == 1) {
+                        continue;
+                    } else {
+                        if (connection[i][k] + connection[k][j] == 2) {
+                            connection[i][j] = 1;
+                        }
+                    }
+                }
+            }
+        }
         for(int i=0; i<N; i++){
-            result = new int[N];
-            DFS(connection, i);
             for(int j=0; j<N; j++){
-                sb.append(result[j] + " ");
+                sb.append(connection[i][j] + " ");
             }
             sb.append("\n");
         }
         bw.write(sb.toString());
         bw.flush();
-    }
-    public static void DFS(int[][] connection, int start){
-        for(int i=0; i<connection.length; i++){
-            if(connection[start][i] == 1 && result[i] == 0){
-                result[i] = 1;
-                DFS(connection, i);
-            }
-        }
     }
 }
 
