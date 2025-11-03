@@ -1,7 +1,6 @@
 package Gold.G4.BOJ1976;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main2 {
