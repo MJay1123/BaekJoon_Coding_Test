@@ -49,7 +49,7 @@ public class Main {
             maxCount = Math.max(maxCount, count[num+4000]);
         }
         List<Integer> list = new ArrayList<>();
-        for(int i=0; i<8001; i++){
+        for(int i=0; i<8002; i++){
             if(count[i] == maxCount){
                 list.add(i-4000);
             }
