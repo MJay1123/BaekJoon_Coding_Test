@@ -1,4 +1,4 @@
-package notyet.BOJ9372;
+package Silver.S4.BOJ9372;
 
 import java.io.*;
 import java.util.StringTokenizer;
@@ -23,12 +23,10 @@ public class Main {
                 airplane[a][b] = 1;
                 airplane[b][a] = 1;
             }
-            for(int i=1; i<=N; i++){
-                boolean[] visited = new boolean[N+1];
-                count = 0;
-                DFS(i, airplane, visited);
-                answer = Math.min(answer, count);
-            }
+            boolean[] visited = new boolean[N+1];
+            count = 0;
+            DFS(1, airplane, visited);
+            answer = Math.min(answer, count);
             bw.write(answer + "\n");
         }
         bw.flush();

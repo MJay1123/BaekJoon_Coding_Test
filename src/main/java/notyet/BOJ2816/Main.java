@@ -12,69 +12,78 @@ public class Main {
     static List<Integer> commands = new ArrayList<>();
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static int KBS1;
+    static int KBS2;
     public static void main(String[] args) throws IOException {
-
         N = Integer.parseInt(br.readLine());
         channels = new String[N];
+        KBS1 = 0;
+        KBS2 = 0;
         for(int i=0; i<N; i++){
             channels[i] = br.readLine();
-        }
-        process(0);
-    }
-
-    public static void process(int num) throws IOException {
-        if(channels[0].equals("KBS1") && channels[1].equals("KBS2")){
-            for(int i=0; i<commands.size(); i++){
-                bw.write(commands.get(i));
+            if(channels[i].equals("KBS1")){
+                KBS1 = i;
             }
-            bw.write("");
-            bw.flush();
-            return;
+            if(channels[i].equals("KBS2")){
+                KBS2 = i;
+            }
         }
-        if(commands.size() >= 500){
-            return;
-        }
-        switch(num){
-            case 1:
-                commands.add(1);
+        while(!channels[0].equals("KBS1")){
+            if(arrow > KBS1){
+                command2();
+            } else if(arrow < KBS1){
                 command1();
-                commands.remove(commands.size()-1);
-                break;
+            } else {
+                while(KBS1 > 0){
+                    command3();
+                }
+                while(KBS1 < 0){
+                    command4();
+                }
+            }
         }
-        commands.add(1);
-        command1();
-        commands.remove(commands.size()-1);
-
-        commands.add(2);
-        command2();
-        commands.remove(commands.size()-1);
-
-        commands.add(3);
-        command3();
-        commands.remove(commands.size()-1);
-
-        commands.add(4);
-        command4();
-        commands.remove(commands.size()-1);
+        while(KBS2 != 1){
+            if(arrow > KBS2){
+                command2();
+            } else if(arrow < KBS2){
+                command1();
+            } else {
+                while(KBS2 > 1){
+                    command3();
+                }
+                while(KBS2 < 1){
+                    command4();
+                }
+            }
+        }
+        for(int i=0; i<commands.size(); i++){
+            bw.write(commands.get(i));
+        }
+        bw.write("\n");
+        bw.flush();
     }
 
     public static void command1(){      // 화살표를 한 칸 아래로
+        commands.add(1);
         if(checkRange(arrow+1)) {
             arrow += 1;
         }
     }
     public static void command2(){      // 화살표를 한 칸 위로
+        commands.add(2);
         if(checkRange(arrow-1)){
             arrow -= 1;
         }
     }
     public static void command3(){      // 채널을 한 칸 아래로
+        commands.add(3);
         if(checkRange(arrow+1)){
             change(arrow, arrow+1);
             arrow += 1;
         }
     }
     public static void command4(){      // 채널을 한 칸 위로
+        commands.add(4);
         if(checkRange(arrow-1)){
             change(arrow, arrow-1);
             arrow -= 1;

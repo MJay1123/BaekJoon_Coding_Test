@@ -1,59 +1,59 @@
 package Silver.S1.BOJ1991;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
+    static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int N = Integer.parseInt(br.readLine());
-        String[] arr = new String[52];
-        arr[0] = "A";
-        int[] arr2 = new int[26];
-        for(int i=0; i<26; i++) {
-            arr2[i] = -1;
-        }
+        char[][] arr = new char[26][2];
         for(int i=0; i<N; i++){
             StringTokenizer st = new StringTokenizer(br.readLine());
-            String parent = st.nextToken();
-            String leftChild = st.nextToken();
-            String rightChild = st.nextToken();
-            int parentIndex = parent.charAt(0) - 'A';
-            int leftChildIndex = leftChild.charAt(0) - 'A';
-            int rightChildIndex = rightChild.charAt(0) - 'A';
-            if(leftChildIndex >= 0) {
-                arr2[leftChildIndex] = parentIndex;
-            }
-            if(rightChildIndex >= 0) {
-                arr2[rightChildIndex] = parentIndex;
-            }
-            putInNode(arr, parent, leftChild, rightChild);
+            char parent = st.nextToken().charAt(0);
+            char leftChild = st.nextToken().charAt(0);
+            char rightChild = st.nextToken().charAt(0);
+            arr[parent-'A'][0] = leftChild;
+            arr[parent-'A'][1] = rightChild;
         }
-        System.out.println(Arrays.toString(arr));
-        System.out.println(Arrays.toString(arr2));
+        preorder(arr, 'A');
+        sb.append("\n");
+        inorder(arr, 'A');
+        sb.append("\n");
+        postorder(arr, 'A');
+        sb.append("\n");
+        bw.write(sb.toString());
+        bw.flush();
     }
-    static class Node {
-        char name;
-        char leftChild;
-        char rightChild;
-        public Node(char name, char leftChild, char rightChild){
-            this.name = name;
-            this.leftChild = leftChild;
-            this.rightChild = rightChild;
+    public static void preorder(char[][] arr, char parent){
+        sb.append(parent);
+        char[] children = arr[parent-'A'];
+        for(int i=0; i<2; i++){
+            if(children[i] != '.'){
+                preorder(arr, children[i]);
+            }
         }
     }
-
-    public static void putInNode(String[] arr, String parent, String leftChild, String rightChild){
-        int index = -1;
-        for(int i=0; i<arr.length; i++){
-            if (arr[i] != null && arr[i].equals(parent)) {
-                index = i;
-                break;
-            }
+    public static void inorder(char[][] arr, char parent){
+        char[] children = arr[parent-'A'];
+        if(children[0] != '.'){
+            inorder(arr, children[0]);
         }
-        arr[index*2 + 1] = leftChild;
-        arr[index*2 + 2] = rightChild;
+        sb.append(parent);
+        if(children[1] != '.'){
+            inorder(arr, children[1]);
+        }
+    }
+    public static void postorder(char[][] arr, char parent){
+        char[] children = arr[parent-'A'];
+        if(children[0] != '.'){
+            postorder(arr, children[0]);
+        }
+        if(children[1] != '.'){
+            postorder(arr, children[1]);
+        }
+        sb.append(parent);
     }
 }

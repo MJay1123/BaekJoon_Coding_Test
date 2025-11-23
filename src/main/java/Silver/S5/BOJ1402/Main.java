@@ -1,4 +1,4 @@
-package notyet.BOJ1402;
+package Silver.S5.BOJ1402;
 
 import java.io.*;
 import java.util.StringTokenizer;
@@ -10,16 +10,18 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
-
+        StringBuilder sb = new StringBuilder();
         T = Integer.parseInt(br.readLine());
         for(int i=0; i<T; i++){
             st = new StringTokenizer(br.readLine());
-
             int number = Integer.parseInt(st.nextToken());
             int goal = Integer.parseInt(st.nextToken());
+            sb.append("yes\n");
         }
-
+        bw.write(sb.toString());
+        bw.flush();
     }
-//    18 = 3*6 = 2*9 = 2*3*3
-//    9, 11, 8
+//    A < B : A x 1 x 1 x 1 / B = A + 1 + 1 + 1
+//    A = B : yes
+//    A > B : A x -1 x -1 x 1 / B = A - 1 - 1 + 1
 }

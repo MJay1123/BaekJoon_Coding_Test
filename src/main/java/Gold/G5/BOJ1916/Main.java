@@ -1,4 +1,4 @@
-package notyet.BOJ1916;
+package Gold.G5.BOJ1916;
 
 import java.io.*;
 import java.util.*;
@@ -33,7 +33,12 @@ public class Main {
             int city1 = Integer.parseInt(st.nextToken());
             int city2 = Integer.parseInt(st.nextToken());
             int cost = Integer.parseInt(st.nextToken());
-            costMapList.get(city1).put(city2, cost);
+            HashMap<Integer, Integer> hm = costMapList.get(city1);
+            if(hm.containsKey(city2)){
+                hm.put(city2, Math.min(cost, hm.get(city2)));
+            } else {
+                hm.put(city2, cost);
+            }
         }
         StringTokenizer st = new StringTokenizer(br.readLine());
         int start = Integer.parseInt(st.nextToken());
@@ -41,26 +46,29 @@ public class Main {
 
         int[] cityCost = new int[N+1];
         for(int i=1; i<=N; i++){
-            cityCost[i] = Integer.MAX_VALUE;
+            cityCost[i] = 1000 * 100000;
         }
         boolean[] visited = new boolean[N+1];
-
         PriorityQueue<City> pq = new PriorityQueue<>();
         cityCost[start] = 0;
-        visited[start] = true;
         pq.offer(new City(start, 0));
         while(!pq.isEmpty()){
             City city = pq.poll();
             int number = city.number;
-            HashMap<Integer, Integer> costMap = costMapList.get(number);
-            for(int i : costMap.keySet()){
-                cityCost[i] = Math.min(cityCost[i], cityCost[number] + costMap.get(i));
-                if(!visited[i]){
-                    visited[i] = true;
-                    pq.offer(new City(i, cityCost[i]));
+            if(!visited[number]){
+                visited[number] = true;
+                HashMap<Integer, Integer> costMap = costMapList.get(number);
+                for(int i : costMap.keySet()){
+                    if(!visited[i]) {
+                        if(cityCost[i] > cityCost[number] + costMap.get(i)) {
+                            cityCost[i] = cityCost[number] + costMap.get(i);
+                            pq.offer(new City(i, cityCost[i]));
+                        }
+                    }
                 }
             }
         }
+//        System.out.println(Arrays.toString(cityCost));
         bw.write(cityCost[end] + "\n");
         bw.flush();
     }
