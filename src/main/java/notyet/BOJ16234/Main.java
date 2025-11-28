@@ -13,7 +13,6 @@ public class Main {
     static int R;
     static int[][] map;
     static boolean[][] visited;
-    static int day = 0;
     static int count = 0;
     static int sum = 0;
     static int[][] move = {{1,0},{-1,0},{0,1},{0,-1}};
