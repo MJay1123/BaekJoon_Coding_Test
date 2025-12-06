@@ -21,16 +21,17 @@ public class Main {
         for(int i : hm.keySet()){
             pq.offer(i);
         }
-        int[][] numbers = new int[2][hm.keySet().size()];
+        int[][] numbers = new int[3][hm.keySet().size()];
         for(int i=0; i<numbers[0].length; i++){
-            numbers[0][i] = pq.poll();
-            numbers[1][i] = hm.get(numbers[0][i]);
+            int number = pq.poll();
+            numbers[0][i] = number;
+            numbers[1][i] = hm.get(number);
         }
-        choose(numbers, 0, new ArrayList<Integer>(), M);
+        choose(numbers, new ArrayList<Integer>(), M);
         bw.write(sb.toString());
         bw.flush();
     }
-    public static void choose(int[][] numbers, int index, List<Integer> list, int M){
+    public static void choose(int[][] numbers, List<Integer> list, int M){
         if(list.size() == M){
             for(int i=0; i<list.size(); i++){
                 sb.append(list.get(i) + " ");
@@ -38,18 +39,14 @@ public class Main {
             sb.append("\n");
             return;
         }
-        if(index == numbers[0].length){
-            return;
-        }
         for(int i=0; i<numbers[0].length; i++){
-            if(numbers[1][index] > 0) {
-                numbers[1][index]--;
-                list.add(numbers[0][index]);
-                choose(numbers, index, list, M);
-                numbers[1][index]++;
+            if(numbers[1][i] > numbers[2][i]) {
+                list.add(numbers[0][i]);
+                numbers[2][i]++;
+                choose(numbers, list, M);
                 list.remove(list.size() - 1);
+                numbers[2][i]--;
             }
-            choose(numbers, index + 1, list, M);
         }
     }
 }
